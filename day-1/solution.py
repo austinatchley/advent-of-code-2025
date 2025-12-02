@@ -6,19 +6,23 @@ def process(input: list[str]) -> tuple[int, int]:
     for line in input:
         direction: str = line[0]
         magnitude: int = int(line[1:])
+        delta: int = magnitude * (1 if direction == 'R' else -1)
 
-        if direction == 'L':
-            if cursor - magnitude <= 0:
-                passed_zeroes += (100 - cursor + magnitude) // 100
-            if cursor == 0:
-                passed_zeroes -= 1
-            cursor = (cursor - magnitude) % 100
-        else:
-            passed_zeroes += (cursor + magnitude) // 100
-            cursor = (cursor + magnitude) % 100
-        
+        prev_cursor: int = cursor
+        cursor = (cursor + delta) % 100
+
+        passed_zeroes += magnitude // 100 # full wrap arounds
+
         if cursor == 0:
             exact_zeroes += 1
+            passed_zeroes += 1
+            continue
+
+        if prev_cursor == 0:
+            continue 
+
+        if (direction == 'L' and prev_cursor < cursor) or (direction == 'R' and prev_cursor > cursor):
+            passed_zeroes += 1
 
     return (exact_zeroes, passed_zeroes)
 
