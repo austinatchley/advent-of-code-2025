@@ -1,36 +1,27 @@
-def process_line(line: str, prev_cursor: int) -> tuple[int, int]:
-    direction: str = line[0]
-    magnitude: int = int(line[1:])
+def process(input: list[str]) -> tuple[int, int]:
+    cursor: int = 50
+    exact_zeroes: int = 0
+    passed_zeroes: int = 0
 
-    passed_zero: int = 0 # int(magnitude / 100)
+    for line in input:
+        direction: str = line[0]
+        magnitude: int = int(line[1:])
 
-    delta: int = magnitude if direction == 'R' else (-1 * magnitude)
-    new_cursor: int = prev_cursor + delta
+        if direction == 'L':
+            if cursor - magnitude <= 0:
+                passed_zeroes += (100 - cursor + magnitude) // 100
+            if cursor == 0:
+                passed_zeroes -= 1
+            cursor = (cursor - magnitude) % 100
+        else:
+            passed_zeroes += (cursor + magnitude) // 100
+            cursor = (cursor + magnitude) % 100
+        
+        if cursor == 0:
+            exact_zeroes += 1
 
-    if (new_cursor == 0 and prev_cursor != 0):
-        passed_zero += 1
-    if prev_cursor == 0 and new_cursor < 0:
-        passed_zero -= 1
+    return (exact_zeroes, passed_zeroes)
 
-    while (new_cursor < 0):
-        new_cursor += 100
-        passed_zero += 1
-    while (new_cursor >= 100):
-        new_cursor -= 100
-        passed_zero += 1
-    
-    print(f'{prev_cursor} + {direction}{magnitude} -> {new_cursor}')
-    if passed_zero != 0:
-        print(f'passed zero: {passed_zero}')
-
-
-    return (new_cursor, passed_zero)
-
-cursor: int = 50
-zeroes: int = 0
 with open('input.txt', 'r') as f:
-    for line in f:
-        (cursor, passed_zero) = process_line(line, cursor)
-        zeroes += passed_zero
-
-print(zeroes)
+    (exact_zeroes, passed_zeroes) = process(f.readlines())
+    print(f'exact_zeroes: {exact_zeroes}, passed_zeroes: {passed_zeroes}')
