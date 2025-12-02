@@ -1,4 +1,5 @@
-def process(input: list[str]) -> tuple[int, int]:
+with open('input.txt', 'r') as f:
+    input: list[str] = f.readlines()
     cursor: int = 50
     exact_zeroes: int = 0
     passed_zeroes: int = 0
@@ -24,8 +25,4 @@ def process(input: list[str]) -> tuple[int, int]:
         if (direction == 'L' and prev_cursor < cursor) or (direction == 'R' and prev_cursor > cursor):
             passed_zeroes += 1
 
-    return (exact_zeroes, passed_zeroes)
-
-with open('input.txt', 'r') as f:
-    (exact_zeroes, passed_zeroes) = process(f.readlines())
     print(f'exact_zeroes: {exact_zeroes}, passed_zeroes: {passed_zeroes}')
