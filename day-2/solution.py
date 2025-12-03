@@ -2,8 +2,14 @@ def invalid(num: int) -> bool:
     string_representation: str = str(num)
     for index in range(1, len(string_representation)):
         substring = string_representation[:index]
-        if (substring + substring) == string_representation:
-            # print(f'{num} invalid!')
+
+        repetitions: int = len(string_representation) // len(substring)
+        candidate = ""
+        for _ in range(repetitions):
+            candidate += substring
+
+        if candidate == string_representation:
+            print(f'{num} invalid!')
             return True
     return False
 
