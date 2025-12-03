@@ -4,13 +4,9 @@ def invalid(num: int) -> bool:
         substring = string_representation[:index]
 
         repetitions: int = len(string_representation) // len(substring)
-        candidate = ""
-        for _ in range(repetitions):
-            candidate += substring
-
-        if candidate == string_representation:
-            # print(f'{num} invalid!')
+        if (substring * repetitions) == string_representation:
             return True
+
     return False
 
 password: int = 0
