@@ -9,7 +9,7 @@ def invalid(num: int) -> bool:
             candidate += substring
 
         if candidate == string_representation:
-            print(f'{num} invalid!')
+            # print(f'{num} invalid!')
             return True
     return False
 
